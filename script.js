@@ -10,9 +10,10 @@ const checkWeather = async (city) =>{
     console.log(data);
 
     document.querySelector('.city').innerHTML = data.name;
-    document.querySelector('.temp').innerHTML = data.main.temp + "°C";
+    document.querySelector('.temp').innerHTML = Math.floor(data.main.temp) + "°C";
     document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
     document.querySelector('.wind').innerHTML = data.wind.speed + "kmph";
+    document.querySelector('.condition').innerHTML = data.weather[0].description;
 
     if(data.weather[0].main=="Clouds"){
         weatherIcon.src="./images/clouds.png";
