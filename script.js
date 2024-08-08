@@ -3,6 +3,27 @@ const searchBox = document.querySelector(".search input");
 const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
 
+function convertTimestamp(unix_timestamp) {
+
+        var date = new Date(unix_timestamp * 1000);
+
+        var hours = date.getHours();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; 
+
+        var minutes = "0" + date.getMinutes();
+
+        var seconds = "0" + date.getSeconds();
+
+        var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2) + ' ' + ampm;
+
+        return(formattedTime);
+
+}
+
+
+
 
 const checkWeather = async (city) =>{
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`);
@@ -14,7 +35,10 @@ const checkWeather = async (city) =>{
     document.querySelector('.humidity').innerHTML = data.main.humidity + "%";
     document.querySelector('.wind').innerHTML = data.wind.speed + "kmph";
     document.querySelector('.condition').innerHTML = data.weather[0].description;
-
+    document.querySelector('.sunrise').innerHTML =  convertTimestamp(data.sys.sunrise);
+    document.querySelector('.sunset').innerHTML =  convertTimestamp(data.sys.sunset);
+   
+   
     if(data.weather[0].main=="Clouds"){
         weatherIcon.src="./images/clouds.png";
     }else if(data.weather[0].main=="Clear"){
